@@ -3,7 +3,7 @@
 #
 
 __doc__ = """
-以 zh-Hant.lproj/Localizable.strings 为参照，过滤出 ar.lproj/Localizable.strings 中不存在的 key + 过滤出 Hant 中没有使用%@而 ar 中使用了%@的 key
+以 sys.argv[1].strings 为参照，找出 sys.argv[2].strings 中不存在的 key + 过滤出 sys.argv[1].strings 中没有使用 %@ 而 sys.argv[2].strings 中使用了 %@ 的 key
 
 即找出阿语翻译中缺失和不完整的部分
 """
@@ -72,12 +72,12 @@ def find_missing_translates(main_strs_path, broken_strs_path):
         if m_translate in b_translates:
             sel_b_translates = list(filter(lambda x: x.key == m_translate.key, b_translates))
             if len(sel_b_translates) != 1:
-                print("重复记录: {}".format(sel_b_translates))
+                print("重复记录:\t{}".format(sel_b_translates[-1]))
             b_translate = sel_b_translates[-1]
             if "%@" in b_translate.val and "%@" not in m_translate.val:
-                print("格式不对： {}".format(b_translate))
+                print("格式不对：\t{}".format(b_translate))
         else:
-            print("缺失： {}".format(m_translate))
+            print("缺失：\t\t{}".format(m_translate))
 
 
 if __name__ == '__main__':
